@@ -1,0 +1,2 @@
+Id,Name,Description,Avatar,ModelAssetPath,IsDefault,BaseHealth,MaxHealth,BaseMana,MaxMana,BaseStrength,BaseAgility,BaseIntelligence
+archer,Archie,,icon_character_Archie,Warrior-Ork,TRUE,100,200,100,200,10,5,2

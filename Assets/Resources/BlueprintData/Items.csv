@@ -1,0 +1,4 @@
+Id,Name,Description,Icon,ItemType,StatToValue,DefaultAmount
+steek_sword,Steel Sword,,,Weapon,Strength:5,1
+amor1,Amor 1,,,Armor,MaxHealth:10,1
+helath_potion,Health Potion,,,Consumable,Health:10,2

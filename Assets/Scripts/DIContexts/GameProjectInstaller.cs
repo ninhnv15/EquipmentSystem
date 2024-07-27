@@ -23,7 +23,6 @@ namespace DIContexts
 
             //Common Event System
             this.Container.Bind<EventSystem>().FromComponentInNewPrefabResource(nameof(EventSystem)).AsSingle().NonLazy();
-            
         }
     }
 }
