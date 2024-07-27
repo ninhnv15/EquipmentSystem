@@ -16,6 +16,10 @@
         public abstract void SetStatValue(StatDataElement statDataElement);
         
         public abstract void SetStatColor(Color color);
+        
+        public abstract void SetChangeValue(float changeValue);
+        
+        public virtual void SetChangeMaxValue(float changeMaxValue) { }
     }
 
     public class StatItemPresenter : BaseUIItemPresenter<BaseStatItemView, StatDataElement>
@@ -29,11 +33,21 @@
             
             this.GetStatIcon(data.StatRecord.Icon).ContinueWith(sprite => this.View.ImgStatIcon.sprite = sprite);
             
-            Color statColor = ColorUtility.TryParseHtmlString(data.StatRecord.ColorHex, out Color color) ? color : Color.white;
+            var statColor = ColorUtility.TryParseHtmlString(data.StatRecord.ColorHex, out Color color) ? color : Color.white;
             
-            this.View.ImgStatIcon.color = color;
-            this.View.TxtStatName.color = color;
-            this.View.SetStatColor(color);
+            this.View.ImgStatIcon.color = statColor;
+            this.View.TxtStatName.color = statColor;
+            this.View.SetStatColor(statColor);
+        }
+        
+        public void SetChangeValue(float changeValue) { this.View.SetChangeValue(changeValue); }
+        
+        public void SetChangeMaxValue(float changeMaxValue) { this.View.SetChangeMaxValue(changeMaxValue); }
+
+        public void ResetChangeValue()
+        {
+            this.View.SetChangeValue(0);
+            this.View.SetChangeMaxValue(0);
         }
 
         private async UniTask<Sprite> GetStatIcon(string statIconPath) { return await this.GameAssets.LoadAssetAsync<Sprite>(statIconPath); }

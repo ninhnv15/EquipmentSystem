@@ -3338,8 +3338,8 @@ MonoBehaviour:
     _ContentPadding:
       m_Left: 10
       m_Right: 10
-      m_Top: 10
-      m_Bottom: 10
+      m_Top: 40
+      m_Bottom: 20
     _Gravity: 1
     _ContentSpacing: 10
     _DefaultItemSize: 60

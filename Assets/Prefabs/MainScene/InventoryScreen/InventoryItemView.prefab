@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 3151751293259972674}
   - component: {fileID: 4853697421588653881}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextAmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,9 +314,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8040695726058838633}
   - component: {fileID: 5178952206801909625}
+  - component: {fileID: 97444938376377895}
   - component: {fileID: 6519638848624192487}
   - component: {fileID: 9015616928458289055}
-  - component: {fileID: 97444938376377895}
   - component: {fileID: 4709481731750093399}
   m_Layer: 5
   m_Name: InventoryItemView
@@ -356,6 +356,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2607227192245376151}
   m_CullTransparentMesh: 0
+--- !u!114 &97444938376377895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2607227192245376151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5369559bc88345fdb4100ea9077bec51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ImgItemIcon>k__BackingField: {fileID: 7127496175938593021}
+  <TxtAmount>k__BackingField: {fileID: 4853697421588653881}
+  <FocusObject>k__BackingField: {fileID: 2385385855503090229}
 --- !u!114 &6519638848624192487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,18 +417,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 0, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &97444938376377895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2607227192245376151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5369559bc88345fdb4100ea9077bec51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4709481731750093399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,6 +524,7 @@ GameObject:
   - component: {fileID: 935891154540739415}
   - component: {fileID: 7276249752038426105}
   - component: {fileID: 591717013810940737}
+  - component: {fileID: 2257872056981860834}
   m_Layer: 5
   m_Name: Focus_Line
   m_TagString: Untagged
@@ -585,6 +589,32 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2257872056981860834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3985188947095497251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19b7e2285c104f6ca47d583f3e5444f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectFactor: 0
+  m_Width: 0.25
+  m_Rotation: 145
+  m_Softness: 1
+  m_Brightness: 1
+  m_Gloss: 1
+  m_EffectArea: 0
+  m_Player:
+    play: 1
+    initialPlayDelay: 0.5
+    duration: 3
+    loop: 1
+    loopDelay: 0
+    updateMode: 0
 --- !u!1 &6683100288082603968
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +632,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5776585611685669035
 RectTransform:
   m_ObjectHideFlags: 0

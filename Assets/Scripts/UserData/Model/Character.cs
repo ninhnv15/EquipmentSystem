@@ -36,7 +36,7 @@
 
     public class StatDataElement
     {
-        public StatType Type         { get; }
+        public StatType Type         { get; set; }
         public float    BaseValue    { get; set; }
         public float    AddedValue   { get; set; }
         public float    CurrentValue => this.BaseValue + this.AddedValue;

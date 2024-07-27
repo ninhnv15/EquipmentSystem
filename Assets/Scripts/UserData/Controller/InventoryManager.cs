@@ -34,6 +34,12 @@
                 
                 this.Data.IsLoadItemFromBlueprint = true;
             }
+
+            //setup static data
+            foreach (var item in this.Data.ItemIdToItems.Values)
+            {
+                item.StaticData = this.itemBlueprint[item.Id];
+            }
         }
         
         public Dictionary<string, Item> GetInventoryItems()

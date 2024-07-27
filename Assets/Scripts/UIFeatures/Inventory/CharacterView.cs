@@ -1,6 +1,8 @@
 ﻿namespace UIFeatures.Inventory
 {
     using System.Collections.Generic;
+    using System.Linq;
+    using Blueprints;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.MVP;
@@ -21,14 +23,16 @@
 
     public class CharacterPresenter : BaseUIItemPresenter<CharacterView, Character>
     {
-        private readonly DiContainer             diContainer;
-        private          List<SlotItemPresenter> slotItemPresenters = new();
-        private          List<StatItemPresenter> statItemPresenters = new();
+        private readonly DiContainer                             diContainer;
+        private          List<SlotItemPresenter>                 slotItemPresenters = new();
+        private          Dictionary<StatType, StatItemPresenter> statItemPresenters = new();
 
+        private Character characterData;
         public CharacterPresenter(IGameAssets gameAssets, DiContainer diContainer) : base(gameAssets) { this.diContainer = diContainer; }
 
         public override void BindData(Character data)
         {
+            this.characterData = data;
             // Setup character info
             this.View.TxtCharacterName.text = data.StaticData.Name;
 
@@ -69,7 +73,45 @@
 
             statItemPresenter.SetView(Object.Instantiate(await this.GameAssets.LoadAssetAsync<GameObject>(prefabPath), this.View.StatHolder).GetComponent<BaseStatItemView>());
             statItemPresenter.BindData(model);
-            this.statItemPresenters.Add(statItemPresenter);
+            this.statItemPresenters.Add(model.Type, statItemPresenter);
+        }
+
+        public void TryItem(Item newItem)
+        {
+            var statChanges = newItem.StaticData.StatToValue.ToDictionary(x => x.Key, x => x.Value);
+
+            if (this.characterData.SlotItems.TryGetValue(newItem.StaticData.ItemType, out var slotItem))
+            {
+                foreach (var statType in statChanges.Keys)
+                {
+                    if (slotItem.Item.StaticData.StatToValue.TryGetValue(statType, out var statValue))
+                    {
+                        statChanges[statType] -= statValue;
+                    }
+                }
+            }
+
+            foreach (var statItemPresenter in this.statItemPresenters)
+            {
+                var statDataElement = this.characterData.StatsDictionary[statItemPresenter.Key];
+                if (statChanges.TryGetValue(statDataElement.Type, out var changeValue))
+                {
+                    statItemPresenter.Value.SetChangeValue(changeValue);
+                }
+
+                if (statChanges.TryGetValue(statDataElement.StatRecord.ClampedBy, out var changeMaxValue))
+                {
+                    statItemPresenter.Value.SetChangeMaxValue(changeMaxValue);
+                }
+            }
+        }
+
+        public void ResetChangeValue()
+        {
+            foreach (var statItemPresenter in this.statItemPresenters.Values)
+            {
+                statItemPresenter.ResetChangeValue();
+            }
         }
 
         public override void Dispose()
@@ -81,7 +123,7 @@
                 slotItemPresenter.Dispose();
             }
 
-            foreach (var statItemPresenter in this.statItemPresenters)
+            foreach (var statItemPresenter in this.statItemPresenters.Values)
             {
                 statItemPresenter.Dispose();
             }
