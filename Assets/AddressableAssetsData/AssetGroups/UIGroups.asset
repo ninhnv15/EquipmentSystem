@@ -62,6 +62,181 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1a6df1d30156e4c97ab1560d66a60561
+    m_Address: equip_icon_hammer_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d96573aa88f40465592937c48d10e5b4
+    m_Address: equip_icon_hammer_0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 64dcade32e0524a34bc08e3125c54212
+    m_Address: equip_icon_axe_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 899dc0ebdc7a545988eb6d07439bd7d7
+    m_Address: equip_icon_axe_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c137572cc83da4d66beb944c4784f2ba
+    m_Address: equip_icon_axe_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1e8ff278270b49f4837fb5c36b01fa0
+    m_Address: equip_icon_axe_0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5df552a5aadf340799991d3a1f024b84
+    m_Address: equip_icon_hammer_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a258e075cc2a14130b1b7a9a3a36ffa7
+    m_Address: equip_icon_hammer_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e9c4ffdc59d84f8eb180cc1caa0425e
+    m_Address: equip_icon_hammer_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7163c6fd94624c289e095b4f71a6291
+    m_Address: equip_icon_potion_blue_0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7536ead2fccee4f91bc02169d4648b6e
+    m_Address: equip_icon_potion_blue_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b195246de82c4ff1adcd3bae4113b29
+    m_Address: equip_icon_potion_blue_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b69f77d64e19243f9922c21051b067c1
+    m_Address: equip_icon_potion_blue_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1c55c101b529408c8d0983860a30112
+    m_Address: equip_icon_potion_blue_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 030e1544e2fa04d53947261dced1405c
+    m_Address: equip_icon_potion_red_0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c99f446ba5371493dbdebe77d870687a
+    m_Address: equip_icon_potion_red_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9778dfe874e1744f5a75c74bd76e1d63
+    m_Address: equip_icon_potion_red_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc65ecf08b4764a3693d194d1d28a2ee
+    m_Address: equip_icon_potion_red_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f01c83406cf6c43a49bc3839e97afc63
+    m_Address: equip_icon_potion_red_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b5fda085ff5b4c37ac63329306bf1e5
+    m_Address: equip_icon_shield_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f41786cf49b54587931c4f4d48ca4c8
+    m_Address: equip_icon_shield_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3589337d843ad31418c7bd4b24a938f7
+    m_Address: equip_icon_armor_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3eef9ab65ae302344a377bdfb0b4cb19
+    m_Address: equip_icon_shield_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 413b65a161714c644bb626a5e0153a6e
+    m_Address: equip_icon_armor_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 140d3c4ab905a6a4faae2487413b38af
+    m_Address: equip_icon_armor_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 17a48934654bcea468fc890cc890da84
+    m_Address: equip_icon_boots_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b82fb887c8cd5e04a9023d0460a4c32e
+    m_Address: equip_icon_boots_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26803654ac80f624ba3aa27a7159b668
+    m_Address: equip_icon_boots_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 29be28be209a17f4d9a9466b5f158b83
+    m_Address: equip_icon_gloves_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13e933c013f915c4598f1fe94df1078c
+    m_Address: equip_icon_gloves_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67fe03d13619bbf4d9620208eff6657f
+    m_Address: equip_icon_gloves_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9fb40552684ab484ca6a2370b15544df
+    m_Address: equip_icon_helmet_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afc3790104879cf4f9bd3ecc4a331795
+    m_Address: equip_icon_helmet_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28018b8eee79f9341ae17781987e334f
+    m_Address: equip_icon_helmet_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff2839282189346bfbeee1c908be2bd6
+    m_Address: equip_icon_axe_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: ab91e3d0c6ceee245b644a0a81b88488, type: 2}
   m_SchemaSet:
