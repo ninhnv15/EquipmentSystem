@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UIGroups
+  m_EditorClassIdentifier: 
+  m_GroupName: UIGroups
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c6945a9fed7444940a81268263837f8c
+  m_SerializeEntries:
+  - m_GUID: be4b8ddfcbb22e64cb32fd2d5547aad2
+    m_Address: InventoryScreenView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 403eec2b1893c403f8c0cb0f08997132
+    m_Address: icon_character_Archie
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 374672a6c75951748b42580b70d5c410
+    m_Address: StatItemView_Numeric
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f5df83f1ef898a47b74c2acdf2e93ac
+    m_Address: StatItemView_ProgressBar
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a6cbdcbec3aa47e3b87f676c39a8df0
+    m_Address: icon_stat_health
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 323d835c269a749c9a03473220cfa6ab
+    m_Address: icon_stat_strength
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e868436529c946aca60ce1d1a26077d
+    m_Address: icon_stat_mana
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2efbd0a92768b42a39bb21ff79b68985
+    m_Address: icon_stat_intelligence
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 067eaff59dcdb4b8d8a75a8b57693b64
+    m_Address: icon_stat_agility
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: ab91e3d0c6ceee245b644a0a81b88488, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 5e75793980b94f54f8e72424b8116093, type: 2}
+    - {fileID: 11400000, guid: ca5de827b4312004c8c56774264cb01b, type: 2}

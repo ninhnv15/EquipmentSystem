@@ -4,6 +4,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
+    using UIFeatures.Inventory;
     using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
@@ -27,7 +28,10 @@
             this.View.BtnInventory.onClick.AddListener(this.OnOpenInventory);
         }
 
-        private void OnOpenInventory() { }
+        private void OnOpenInventory()
+        {
+            this.screenManager.OpenScreen<InventoryScreenPresenter>();
+        }
 
         public override UniTask BindData() { return UniTask.CompletedTask; }
     }

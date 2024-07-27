@@ -16,11 +16,7 @@ namespace UIFeatures.LoadingScene
         private readonly GameSceneDirector sceneDirector;
         private readonly MasterDataManager masterDataManager;
 
-        public LoadingScreenPresenter(
-            SignalBus signalBus,
-            GameSceneDirector sceneDirector,
-            MasterDataManager masterDataManager
-        ) : base(signalBus)
+        public LoadingScreenPresenter(SignalBus signalBus, GameSceneDirector sceneDirector, MasterDataManager masterDataManager) : base(signalBus)
         {
             this.sceneDirector     = sceneDirector;
             this.masterDataManager = masterDataManager;
