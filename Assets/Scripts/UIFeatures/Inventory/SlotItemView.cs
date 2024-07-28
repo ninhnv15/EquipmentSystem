@@ -53,8 +53,8 @@
                         }
 
                         this.View.IconItem.transform.DOKill();
-                        this.View.IconItem.transform.localScale = Vector3.one * 1.2f;
-                        this.View.IconItem.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutExpo).OnComplete(() => { this.View.IconItem.GetComponent<UIShiny>().Play(); });
+                        this.View.IconItem.transform.localScale = Vector3.one * 1.5f;
+                        this.View.IconItem.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutElastic).OnComplete(() => { this.View.IconItem.GetComponent<UIShiny>().Play(); });
                     });
                 }
                 else

@@ -24,30 +24,26 @@
 
         private RectTransform itemIconRectTransform;
         private Tweener       scaleTween;
-        private void Start()
-        {
-            this.itemIconRectTransform = this.ImgItemIcon.GetComponent<RectTransform>();
-        }
+        public Transform      InventoryRoot { get; set; }
+        private void          Start() { this.itemIconRectTransform = this.ImgItemIcon.GetComponent<RectTransform>(); }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            this.ImgItemIcon.maskable = false;
-            this.scaleTween              = this.itemIconRectTransform.DOScale(1.2f, 0.1f);
-            
+            this.itemIconRectTransform.SetParent(this.InventoryRoot);
+            this.ImgItemIcon.raycastTarget = false;
+            this.scaleTween           = this.itemIconRectTransform.DOScale(1.5f, 0.1f);
         }
-        public void OnDrag(PointerEventData eventData)
-        {
-            this.itemIconRectTransform.anchoredPosition += eventData.delta;
-        }
+        public void OnDrag(PointerEventData eventData) { this.itemIconRectTransform.anchoredPosition += eventData.delta; }
         public void OnEndDrag(PointerEventData eventData)
         {
-            this.ImgItemIcon.maskable = true;
+            this.itemIconRectTransform.SetParent(this.transform);
+            this.ImgItemIcon.raycastTarget = true;
             this.scaleTween.Kill();
             this.itemIconRectTransform.DOScale(1.0f, 0.25f).SetEase(Ease.OutBounce);
             this.itemIconRectTransform.anchoredPosition = Vector2.zero;
             Debug.Log("OnEndDrag");
         }
-        public void OnPointerDown(PointerEventData eventData) {  this.OnClick?.Invoke(); }
+        public void OnPointerDown(PointerEventData eventData) { this.OnClick?.Invoke(); }
     }
 
     public class InventoryItemPresenter : BaseUIItemPresenter<InventoryItemView, InventoryItemModel>
@@ -57,6 +53,7 @@
 
         public override void BindData(InventoryItemModel data)
         {
+            this.View.InventoryRoot = data.InventoryRoot;
             this.View.ImgItemIcon.gameObject.SetActive(false);
             this.GetItemIcon(data.Item.StaticData.Icon).ContinueWith(sprite =>
             {
@@ -93,9 +90,10 @@
 
     public class InventoryItemModel
     {
-        public BoolReactiveProperty IsSelected { get; }
-        public Action               OnSelected { get; set; }
-        public Item                 Item       { get; }
+        public BoolReactiveProperty IsSelected    { get; }
+        public Action               OnSelected    { get; set; }
+        public Item                 Item          { get; }
+        public Transform            InventoryRoot { get; set; }
 
         public InventoryItemModel(Item item, bool isSelected = false)
         {

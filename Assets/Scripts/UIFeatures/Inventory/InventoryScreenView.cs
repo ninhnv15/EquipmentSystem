@@ -56,17 +56,15 @@
             foreach (var item in this.inventoryManager.GetInventoryItems().Values)
             {
                 var itemModel = new InventoryItemModel(item);
-                itemModel.OnSelected = () => { this.OnSelected(itemModel); };
+                itemModel.OnSelected    = () => { this.OnSelected(itemModel); };
+                itemModel.InventoryRoot = this.View.transform;
                 listInventoryItemModels.Add(itemModel);
             }
 
             this.View.InventoryItemGridViewAdapter.InitItemAdapter(listInventoryItemModels, this.diContainer);
         }
 
-        public Item GetSelectedItem()
-        {
-            return this.currentSelectedItem?.Item;
-        }
+        public Item GetSelectedItem() { return this.currentSelectedItem?.Item; }
 
         public void UnSelectCurrentItem()
         {
