@@ -133,7 +133,7 @@ PrefabInstance:
     - target: {fileID: 3350278953765418212, guid: 1393711bdff296049973fdd75178b739,
         type: 3}
       propertyPath: m_spriteBlending
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3735499147119449826, guid: 1393711bdff296049973fdd75178b739,
         type: 3}

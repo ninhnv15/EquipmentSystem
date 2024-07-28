@@ -9,7 +9,7 @@ namespace UIFeatures.Inventory
     using UnityEngine;
     using UserData.Model;
 
-    public class NumericStatItemView : BaseStatItemView
+    public class NumericStatItemView : BaseDetailStatItemView
     {
         [field: SerializeField] public TextMeshProUGUI TxtBaseValue        { get; private set; }
         [field: SerializeField] public TextMeshProUGUI TxtAddedValue       { get; private set; }

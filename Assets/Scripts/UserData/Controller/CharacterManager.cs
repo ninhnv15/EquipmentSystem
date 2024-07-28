@@ -13,12 +13,15 @@ namespace UserData.Controller
         private readonly CharacterBlueprint charactersBlueprint;
         private readonly StatBlueprint      statBlueprint;
         private readonly ItemBlueprint      itemBlueprint;
+        private readonly InventoryManager   inventoryManager;
 
-        public CharacterManager(MasterDataManager masterDataManager, CharacterBlueprint charactersBlueprint, StatBlueprint statBlueprint, ItemBlueprint itemBlueprint) : base(masterDataManager)
+        public CharacterManager(MasterDataManager masterDataManager, CharacterBlueprint charactersBlueprint, StatBlueprint statBlueprint, ItemBlueprint itemBlueprint,
+            InventoryManager inventoryManager) : base(masterDataManager)
         {
             this.charactersBlueprint = charactersBlueprint;
             this.statBlueprint       = statBlueprint;
             this.itemBlueprint       = itemBlueprint;
+            this.inventoryManager    = inventoryManager;
         }
 
         protected override void OnDataLoaded()
@@ -106,11 +109,16 @@ namespace UserData.Controller
 
         #endregion
 
-        public bool TryEquipItem(Item newItem, out Item oldItem)
+        public bool TryEquipItem(Item newItem)
         {
             var character = this.GetSelectedCharacter();
-            oldItem = null;
-            return character != null && character.EquipItem(newItem, out oldItem);
+            if (character == null) return false;
+            if (!character.EquipItem(newItem, out var oldItem)) return false;
+            
+            this.inventoryManager.RemoveItem(newItem);
+            this.inventoryManager.AddItem(oldItem);
+            return true;
+
         }
     }
 }

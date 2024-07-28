@@ -8,7 +8,7 @@
     using UnityEngine.UI;
     using UserData.Model;
 
-    public abstract class BaseStatItemView : TViewMono
+    public abstract class BaseDetailStatItemView : TViewMono
     {
         [field: SerializeField] public Image ImgStatIcon { get; private set; }
         [field: SerializeField] public TextMeshProUGUI  TxtStatName { get; private set; }
@@ -22,7 +22,7 @@
         public virtual void SetChangeMaxValue(float changeMaxValue) { }
     }
 
-    public class StatItemPresenter : BaseUIItemPresenter<BaseStatItemView, StatDataElement>
+    public class StatItemPresenter : BaseUIItemPresenter<BaseDetailStatItemView, StatDataElement>
     {
         public StatItemPresenter(IGameAssets gameAssets) : base(gameAssets) { }
 

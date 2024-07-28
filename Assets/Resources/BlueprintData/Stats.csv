@@ -4,5 +4,5 @@ Mana,Mana,icon_stat_mana,,MaxMana,TRUE,StatItemView_ProgressBar,#68B9DB
 Strength,Strength,icon_stat_strength,,None,TRUE,StatItemView_Numeric,#D14B39
 Agility,Agility,icon_stat_agility,,None,TRUE,StatItemView_Numeric,#9CFF67
 Intelligence,Intelligence,icon_stat_intelligence,,None,TRUE,StatItemView_Numeric,#C3708C
-MaxHealth,MaxHealth,icon_stat_health,,None,FALSE,,
-MaxMana,MaxMana,icon_stat_health,,None,FALSE,,
+MaxHealth,Max Health,icon_stat_health,,None,FALSE,,
+MaxMana,Max Mana,icon_stat_health,,None,FALSE,,

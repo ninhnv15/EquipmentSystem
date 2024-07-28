@@ -9,7 +9,7 @@ namespace UIFeatures.Inventory
     using UnityEngine.UI;
     using UserData.Model;
 
-    public class ProgressBarStatItemView : BaseStatItemView
+    public class ProgressBarStatItemView : BaseDetailStatItemView
     {
         [field: SerializeField] public Image           ImgFill           { get; private set; }
         [field: SerializeField] public Image           ImgFillChange     { get; private set; }

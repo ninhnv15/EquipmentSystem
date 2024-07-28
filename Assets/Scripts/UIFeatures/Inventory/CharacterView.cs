@@ -30,18 +30,16 @@
     {
         private readonly DiContainer                             diContainer;
         private readonly CharacterManager                        characterManager;
-        private readonly InventoryManager                        inventoryManager;
         private readonly InventoryScreenPresenter                inventoryScreenPresenter;
-        private          List<SlotItemPresenter>                 slotItemPresenters = new();
-        private          Dictionary<StatType, StatItemPresenter> statItemPresenters = new();
+        private readonly List<SlotItemPresenter>                 slotItemPresenters = new();
+        private readonly Dictionary<StatType, StatItemPresenter> statItemPresenters = new();
+        private readonly CompositeDisposable                     disposables        = new();
 
         private Character characterData;
-        public CharacterPresenter(IGameAssets gameAssets, DiContainer diContainer, CharacterManager characterManager, InventoryManager inventoryManager,
-            InventoryScreenPresenter inventoryScreenPresenter) : base(gameAssets)
+        public CharacterPresenter(IGameAssets gameAssets, DiContainer diContainer, CharacterManager characterManager, InventoryScreenPresenter inventoryScreenPresenter) : base(gameAssets)
         {
             this.diContainer              = diContainer;
             this.characterManager         = characterManager;
-            this.inventoryManager         = inventoryManager;
             this.inventoryScreenPresenter = inventoryScreenPresenter;
         }
 
@@ -62,6 +60,7 @@
             this.SubscribeStatValue(StatType.Mana);
 
             // Setup slot item views
+            this.slotItemPresenters.Clear();
             foreach (var slotItemView in this.View.SlotItemViews)
             {
                 var slotItemPresenter = this.diContainer.Instantiate<SlotItemPresenter>();
@@ -89,19 +88,19 @@
             if (this.characterData.StatsDictionary.TryGetValue(statType, out var statDataElement))
             {
                 var currentValue = statDataElement.CurrentValue.Value;
-                statDataElement.CurrentValue.Subscribe( newValue =>
+                this.disposables.Add(statDataElement.CurrentValue.Subscribe(newValue =>
                 {
                     if (newValue > currentValue)
                     {
                         ObjectPoolManager.Instance.Spawn($"BuffVfx_{statType}").ContinueWith(vfx =>
                         {
-                            vfx.transform.SetParent(this.View.VfxHolder,false);
+                            vfx.transform.SetParent(this.View.VfxHolder, false);
                             vfx.transform.localScale = Vector3.one;
                         });
                     }
 
                     currentValue = newValue;
-                });
+                }));
             }
         }
 
@@ -111,7 +110,7 @@
         {
             var statItemPresenter = this.diContainer.Instantiate<StatItemPresenter>();
 
-            statItemPresenter.SetView(Object.Instantiate(await this.GameAssets.LoadAssetAsync<GameObject>(prefabPath), this.View.StatHolder).GetComponent<BaseStatItemView>());
+            statItemPresenter.SetView(Object.Instantiate(await this.GameAssets.LoadAssetAsync<GameObject>(prefabPath), this.View.StatHolder).GetComponent<BaseDetailStatItemView>());
             statItemPresenter.BindData(model);
             this.statItemPresenters.Add(model.Type, statItemPresenter);
         }
@@ -121,11 +120,8 @@
             var selectedItem = this.inventoryScreenPresenter.GetSelectedItem();
             if (selectedItem.StaticData.ItemType == slotItemType)
             {
-                if (this.characterManager.TryEquipItem(selectedItem, out var oldItem))
+                if (this.characterManager.TryEquipItem(selectedItem))
                 {
-                    this.inventoryManager.RemoveItem(selectedItem);
-                    this.inventoryManager.AddItem(oldItem);
-
                     this.inventoryScreenPresenter.UnSelectCurrentItem();
                     this.inventoryScreenPresenter.RefreshListItemView();
                 }
@@ -183,6 +179,8 @@
             {
                 statItemPresenter.Dispose();
             }
+
+            this.disposables.Dispose();
         }
     }
 }

@@ -35,13 +35,18 @@
 
         public override UniTask BindData()
         {
+            this.UnSelectCurrentItem();
+            
             //Setup inventory grid view
             this.RefreshListItemView();
 
             //Setup character view
+            if (this.characterPresenter == null)
+            {
+                this.characterPresenter = this.diContainer.Instantiate<CharacterPresenter>(new[] { this });
+                this.characterPresenter.SetView(this.View.CharacterView);
+            }
 
-            this.characterPresenter = this.diContainer.Instantiate<CharacterPresenter>(new[] { this });
-            this.characterPresenter.SetView(this.View.CharacterView);
             this.characterPresenter.BindData(this.characterManager.GetSelectedCharacter());
 
             this.View.BtnBackground.onClick.AddListener(this.UnSelectCurrentItem);
@@ -55,8 +60,8 @@
             foreach (var item in this.inventoryManager.GetInventoryItems().Values)
             {
                 var itemModel = new InventoryItemModel(item);
-                itemModel.OnSelected    = () => { this.OnSelected(itemModel); };
-                itemModel.InventoryRoot = this.View.transform;
+                itemModel.OnSelected          = () => { this.OnSelected(itemModel); };
+                itemModel.InventoryRoot       = this.View.transform;
                 itemModel.InventoryScrollRect = this.View.InventoryItemGridViewAdapter;
                 listInventoryItemModels.Add(itemModel);
             }

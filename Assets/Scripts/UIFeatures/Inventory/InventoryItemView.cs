@@ -5,6 +5,7 @@
     using DG.Tweening;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.MVP;
+    using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using TMPro;
     using UniRx;
     using UnityEngine;
@@ -32,8 +33,9 @@
 
         [SerializeField] private DragDropAnimationSettings dragDropAnimationSettings;
 
-        public Action     OnClick;
-        public Transform  InventoryRoot       { get; set; }
+        public Action                       OnClick;
+        public Action                       OnDoubleClick;
+        public Transform                    InventoryRoot       { get; set; }
         public InventoryItemGridViewAdapter InventoryScrollRect { get; set; }
 
         private RectTransform itemIconRectTransform;
@@ -93,21 +95,28 @@
                 this.itemIconRectTransform.SetParent(this.InventoryRoot);
                 this.ImgItemIcon.raycastTarget = false;
                 this.scaleTween                = this.itemIconRectTransform.DOScale(dragDropAnimationSettings.beginDragScale, dragDropAnimationSettings.beginDragDuration);
-
             }).AddTo(this);
         }
-        public void OnPointerExit(PointerEventData eventData)             { this.clickObservable?.Dispose(); }
+        public void OnPointerExit(PointerEventData eventData) { this.clickObservable?.Dispose(); }
         public void OnPointerUp(PointerEventData eventData)
         {
             this.clickObservable?.Dispose();
             ResetDraggedItem();
+
+            // detect double click on this item
+            if (eventData.clickCount == 2)
+            {
+                Debug.Log("Double Click");
+                this.OnDoubleClick?.Invoke();
+            }
         }
     }
 
     public class InventoryItemPresenter : BaseUIItemPresenter<InventoryItemView, InventoryItemModel>
     {
-        private IDisposable selectObservable;
-        public InventoryItemPresenter(IGameAssets gameAssets) : base(gameAssets) { }
+        private readonly IScreenManager screenManager;
+        private          IDisposable    selectObservable;
+        public InventoryItemPresenter(IGameAssets gameAssets, IScreenManager screenManager) : base(gameAssets) { this.screenManager = screenManager; }
 
         public override void BindData(InventoryItemModel data)
         {
@@ -130,7 +139,10 @@
                 this.View.TxtAmount.gameObject.SetActive(false);
             }
 
-            this.View.OnClick     = () => { data.OnSelected?.Invoke(); };
+            this.View.OnClick       = () => { data.OnSelected?.Invoke(); };
+            this.View.OnDoubleClick = () => { this.screenManager.OpenScreen<ItemInfoPopupPresenter, Item>(data.Item); };
+
+
             this.selectObservable = data.IsSelected.Subscribe(this.SetSelectItemState);
         }
 
@@ -142,18 +154,19 @@
         public override void Dispose()
         {
             base.Dispose();
-            this.View.OnClick = null;
+            this.View.OnClick       = null;
+            this.View.OnDoubleClick = null;
             selectObservable?.Dispose();
         }
     }
 
     public class InventoryItemModel
     {
-        public BoolReactiveProperty IsSelected          { get; }
-        public Action               OnSelected          { get; set; }
-        public Item                 Item                { get; }
-        public Transform            InventoryRoot       { get; set; }
-        public InventoryItemGridViewAdapter           InventoryScrollRect { get; set; }
+        public BoolReactiveProperty         IsSelected          { get; }
+        public Action                       OnSelected          { get; set; }
+        public Item                         Item                { get; }
+        public Transform                    InventoryRoot       { get; set; }
+        public InventoryItemGridViewAdapter InventoryScrollRect { get; set; }
 
         public InventoryItemModel(Item item, bool isSelected = false)
         {
