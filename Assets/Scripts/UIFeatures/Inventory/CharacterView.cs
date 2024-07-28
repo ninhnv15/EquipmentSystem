@@ -33,7 +33,7 @@
         private readonly InventoryScreenPresenter                inventoryScreenPresenter;
         private readonly List<SlotItemPresenter>                 slotItemPresenters = new();
         private readonly Dictionary<StatType, StatItemPresenter> statItemPresenters = new();
-        private readonly CompositeDisposable                     disposables        = new();
+        private  CompositeDisposable                     disposables;
 
         private Character characterData;
         public CharacterPresenter(IGameAssets gameAssets, DiContainer diContainer, CharacterManager characterManager, InventoryScreenPresenter inventoryScreenPresenter) : base(gameAssets)
@@ -56,6 +56,7 @@
                 this.View.ImgCharacterPortrait.gameObject.SetActive(true);
             });
 
+            this.disposables = new CompositeDisposable();
             this.SubscribeStatValue(StatType.Health);
             this.SubscribeStatValue(StatType.Mana);
 
