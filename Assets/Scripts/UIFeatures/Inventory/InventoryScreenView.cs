@@ -5,13 +5,17 @@
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using UnityEngine;
+    using UnityEngine.UI;
     using UserData.Controller;
+    using UserData.Model;
     using Zenject;
 
     public class InventoryScreenView : BaseView
     {
-        public InventoryItemGridViewAdapter inventoryItemGridViewAdapter;
-        public CharacterView                characterView;
+        [field: SerializeField] public Button                       BtnBackground                { get; private set; }
+        [field: SerializeField] public InventoryItemGridViewAdapter InventoryItemGridViewAdapter { get; private set; }
+        [field: SerializeField] public CharacterView                CharacterView                { get; private set; }
     }
 
     [ScreenInfo(nameof(InventoryScreenView))]
@@ -33,44 +37,50 @@
         public override UniTask BindData()
         {
             //Setup inventory grid view
-            var listItems               = this.inventoryManager.GetInventoryItems().Values.ToList();
-            var listInventoryItemModels = new List<InventoryItemModel>();
-
-
-            foreach (var item in listItems)
-            {
-                var itemModel = new InventoryItemModel(item);
-                itemModel.OnSelected = () => { this.OnSelected(itemModel); };
-
-                listInventoryItemModels.Add(itemModel);
-            }
-
-            this.View.inventoryItemGridViewAdapter.InitItemAdapter(listInventoryItemModels, this.diContainer);
+            this.RefreshListItemView();
 
             //Setup character view
 
-            this.characterPresenter = this.diContainer.Instantiate<CharacterPresenter>();
-            this.characterPresenter.SetView(this.View.characterView);
+            this.characterPresenter = this.diContainer.Instantiate<CharacterPresenter>(new[] { this });
+            this.characterPresenter.SetView(this.View.CharacterView);
             this.characterPresenter.BindData(this.characterManager.GetSelectedCharacter());
 
+            this.View.BtnBackground.onClick.AddListener(this.UnSelectCurrentItem);
+
             return UniTask.CompletedTask;
+        }
+        public void RefreshListItemView()
+        {
+            var listInventoryItemModels = new List<InventoryItemModel>();
+
+            foreach (var item in this.inventoryManager.GetInventoryItems().Values)
+            {
+                var itemModel = new InventoryItemModel(item);
+                itemModel.OnSelected = () => { this.OnSelected(itemModel); };
+                listInventoryItemModels.Add(itemModel);
+            }
+
+            this.View.InventoryItemGridViewAdapter.InitItemAdapter(listInventoryItemModels, this.diContainer);
+        }
+
+        public Item GetSelectedItem()
+        {
+            return this.currentSelectedItem?.Item;
+        }
+
+        public void UnSelectCurrentItem()
+        {
+            if (this.currentSelectedItem == null) return;
+            this.characterPresenter.ResetChangeValue();
+            this.currentSelectedItem.IsSelected.Value = false;
+            this.currentSelectedItem                  = null;
         }
 
         private void OnSelected(InventoryItemModel itemData)
         {
-            this.characterPresenter.ResetChangeValue();
-            
-            if (this.currentSelectedItem == itemData)
-            {
-                this.currentSelectedItem.IsSelected.Value = false;
-                this.currentSelectedItem                  = null;
-                return;
-            }
+            if (this.currentSelectedItem == itemData) return;
 
-            if (this.currentSelectedItem != null)
-            {
-                this.currentSelectedItem.IsSelected.Value = false;
-            }
+            this.UnSelectCurrentItem();
 
             this.currentSelectedItem                  = itemData;
             this.currentSelectedItem.IsSelected.Value = true;
@@ -82,6 +92,7 @@
         {
             base.Dispose();
             this.characterPresenter.Dispose();
+            this.View.BtnBackground.onClick.RemoveAllListeners();
         }
     }
 }

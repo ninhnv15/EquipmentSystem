@@ -2,6 +2,9 @@
 {
     using System;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
+    using DG.Tweening.Core;
+    using DG.Tweening.Plugins.Options;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.MVP;
     using TMPro;
@@ -11,7 +14,7 @@
     using UnityEngine.UI;
     using UserData.Model;
 
-    public class InventoryItemView : TViewMono, IPointerClickHandler
+    public class InventoryItemView : TViewMono, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [field: SerializeField] public Image           ImgItemIcon { get; private set; }
         [field: SerializeField] public TextMeshProUGUI TxtAmount   { get; private set; }
@@ -19,7 +22,32 @@
 
         public Action OnClick;
 
-        public void OnPointerClick(PointerEventData eventData) { this.OnClick?.Invoke(); }
+        private RectTransform itemIconRectTransform;
+        private Tweener       scaleTween;
+        private void Start()
+        {
+            this.itemIconRectTransform = this.ImgItemIcon.GetComponent<RectTransform>();
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            this.ImgItemIcon.maskable = false;
+            this.scaleTween              = this.itemIconRectTransform.DOScale(1.2f, 0.1f);
+            
+        }
+        public void OnDrag(PointerEventData eventData)
+        {
+            this.itemIconRectTransform.anchoredPosition += eventData.delta;
+        }
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            this.ImgItemIcon.maskable = true;
+            this.scaleTween.Kill();
+            this.itemIconRectTransform.DOScale(1.0f, 0.25f).SetEase(Ease.OutBounce);
+            this.itemIconRectTransform.anchoredPosition = Vector2.zero;
+            Debug.Log("OnEndDrag");
+        }
+        public void OnPointerDown(PointerEventData eventData) {  this.OnClick?.Invoke(); }
     }
 
     public class InventoryItemPresenter : BaseUIItemPresenter<InventoryItemView, InventoryItemModel>

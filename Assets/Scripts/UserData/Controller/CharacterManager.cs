@@ -12,11 +12,13 @@ namespace UserData.Controller
 
         private readonly CharacterBlueprint charactersBlueprint;
         private readonly StatBlueprint      statBlueprint;
+        private readonly ItemBlueprint      itemBlueprint;
 
-        public CharacterManager(MasterDataManager masterDataManager, CharacterBlueprint charactersBlueprint, StatBlueprint statBlueprint) : base(masterDataManager)
+        public CharacterManager(MasterDataManager masterDataManager, CharacterBlueprint charactersBlueprint, StatBlueprint statBlueprint, ItemBlueprint itemBlueprint) : base(masterDataManager)
         {
             this.charactersBlueprint = charactersBlueprint;
             this.statBlueprint       = statBlueprint;
+            this.itemBlueprint       = itemBlueprint;
         }
 
         protected override void OnDataLoaded()
@@ -31,6 +33,14 @@ namespace UserData.Controller
                         statDataElement.Value.StatRecord = this.statBlueprint.GetDataById(statDataElement.Key);
                         if (statDataElement.Value.StatRecord.ClampedBy != StatType.None)
                             statDataElement.Value.ClampedBy = character.StatsDictionary[statDataElement.Value.StatRecord.ClampedBy];
+                    }
+
+                    foreach (var slotItem in character.SlotItems.Values)
+                    {
+                        if (slotItem.Item.Value != null)
+                        {
+                            slotItem.Item.Value.StaticData = this.itemBlueprint.GetDataById(slotItem.Item.Value.Id);
+                        }
                     }
                 }
                 else
@@ -95,5 +105,12 @@ namespace UserData.Controller
         public CharacterRecord GetCharacterRecord(string characterId) { return this.charactersBlueprint.GetDataById(characterId); }
 
         #endregion
+
+        public bool TryEquipItem(Item newItem, out Item oldItem)
+        {
+            var character = this.GetSelectedCharacter();
+            oldItem = null;
+            return character != null && character.EquipItem(newItem, out oldItem);
+        }
     }
 }

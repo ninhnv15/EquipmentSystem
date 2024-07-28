@@ -46,5 +46,25 @@
         {
             return this.Data.ItemIdToItems;
         }
+        public void RemoveItem(Item selectedItem)
+        {
+            if (selectedItem == null) return;
+            if (this.Data.ItemIdToItems.TryGetValue(selectedItem.Id, out var item))
+            {
+                item.Amount -= 1;
+                if (item.Amount <= 0)
+                {
+                    this.Data.ItemIdToItems.Remove(selectedItem.Id);
+                }
+            }
+        }
+        public void AddItem(Item oldItem)
+        {
+            if(oldItem == null) return;
+            if (!this.Data.ItemIdToItems.TryAdd(oldItem.Id, oldItem))
+            {
+                this.Data.ItemIdToItems[oldItem.Id].Amount += 1;
+            }
+        }
     }
 }

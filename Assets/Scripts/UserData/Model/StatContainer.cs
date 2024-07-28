@@ -20,7 +20,7 @@
 
         public StatDataElement GetStat(StatType statType) { return this.statsDictionary.GetValueOrDefault(statType); }
 
-        public float GetStatValue(StatType statType) { return this.statsDictionary[statType].CurrentValue; }
+        public float GetStatValue(StatType statType) { return this.statsDictionary[statType].CurrentValue.Value; }
 
         public void SetBaseStatValue(StatType statType, float value)
         {
@@ -31,7 +31,7 @@
         public void AddAddedStatValue(StatType statType, float value)
         {
             var statDataElement = this.statsDictionary[statType];
-            statDataElement.SetAddedValue(statDataElement.AddedValue + value);
+            statDataElement.SetAddedValue(statDataElement.AddedValue.Value + value);
             this.OnStatChange(statDataElement);
         }
 

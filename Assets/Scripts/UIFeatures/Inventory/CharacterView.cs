@@ -9,6 +9,7 @@
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
+    using UserData.Controller;
     using UserData.Model;
     using Zenject;
 
@@ -24,11 +25,21 @@
     public class CharacterPresenter : BaseUIItemPresenter<CharacterView, Character>
     {
         private readonly DiContainer                             diContainer;
+        private readonly CharacterManager                        characterManager;
+        private readonly InventoryManager                        inventoryManager;
+        private readonly InventoryScreenPresenter                inventoryScreenPresenter;
         private          List<SlotItemPresenter>                 slotItemPresenters = new();
         private          Dictionary<StatType, StatItemPresenter> statItemPresenters = new();
 
         private Character characterData;
-        public CharacterPresenter(IGameAssets gameAssets, DiContainer diContainer) : base(gameAssets) { this.diContainer = diContainer; }
+        public CharacterPresenter(IGameAssets gameAssets, DiContainer diContainer, CharacterManager characterManager, InventoryManager inventoryManager,
+            InventoryScreenPresenter inventoryScreenPresenter) : base(gameAssets)
+        {
+            this.diContainer              = diContainer;
+            this.characterManager         = characterManager;
+            this.inventoryManager         = inventoryManager;
+            this.inventoryScreenPresenter = inventoryScreenPresenter;
+        }
 
         public override void BindData(Character data)
         {
@@ -51,7 +62,8 @@
                 slotItemPresenter.SetView(slotItemView);
                 this.slotItemPresenters.Add(slotItemPresenter);
 
-                slotItemPresenter.BindData(data.SlotItems.GetValueOrDefault(slotItemView.ItemType));
+                slotItemPresenter.BindData(data.GetOrAddSlotItem(slotItemView.ItemType));
+                slotItemView.OnDropItem = () => { this.OnDropItem(slotItemView.ItemType); };
             }
 
             // Setup stats
@@ -75,16 +87,32 @@
             statItemPresenter.BindData(model);
             this.statItemPresenters.Add(model.Type, statItemPresenter);
         }
+        
+        private void OnDropItem(ItemType slotItemType)
+        {
+            var selectedItem = this.inventoryScreenPresenter.GetSelectedItem();
+            if (selectedItem.StaticData.ItemType == slotItemType)
+            {
+                if (this.characterManager.TryEquipItem(selectedItem, out var oldItem))
+                {
+                    this.inventoryManager.RemoveItem(selectedItem);
+                    this.inventoryManager.AddItem(oldItem);
+
+                    this.inventoryScreenPresenter.UnSelectCurrentItem();
+                    this.inventoryScreenPresenter.RefreshListItemView();
+                }
+            }
+        }
 
         public void TryItem(Item newItem)
         {
             var statChanges = newItem.StaticData.StatToValue.ToDictionary(x => x.Key, x => x.Value);
 
-            if (this.characterData.SlotItems.TryGetValue(newItem.StaticData.ItemType, out var slotItem))
+            if (this.characterData.SlotItems.TryGetValue(newItem.StaticData.ItemType, out var slotItem) && slotItem.Item.Value != null)
             {
-                foreach (var statType in statChanges.Keys)
+                foreach (var statType in newItem.StaticData.StatToValue.Keys)
                 {
-                    if (slotItem.Item.StaticData.StatToValue.TryGetValue(statType, out var statValue))
+                    if (slotItem.Item.Value.StaticData.StatToValue.TryGetValue(statType, out var statValue))
                     {
                         statChanges[statType] -= statValue;
                     }
