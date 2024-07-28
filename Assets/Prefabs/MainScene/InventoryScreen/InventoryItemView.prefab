@@ -68,7 +68,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: c137572cc83da4d66beb944c4784f2ba, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -123,7 +123,7 @@ RectTransform:
   m_Children:
   - {fileID: 935891154540739415}
   - {fileID: 5776585611685669035}
-  m_Father: {fileID: 8040695726058838633}
+  m_Father: {fileID: 4582094491312920445}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -340,7 +340,6 @@ RectTransform:
   - {fileID: 4582094491312920445}
   - {fileID: 1486191257730352315}
   - {fileID: 1132345472649517483}
-  - {fileID: 3210521995860879789}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -371,6 +370,13 @@ MonoBehaviour:
   <ImgItemIcon>k__BackingField: {fileID: 7127496175938593021}
   <TxtAmount>k__BackingField: {fileID: 4853697421588653881}
   <FocusObject>k__BackingField: {fileID: 2385385855503090229}
+  dragDropAnimationSettings:
+    dragThreshold: 0.25
+    beginDragScale: 1.5
+    beginDragDuration: 0.1
+    endDragScale: 1
+    endDragDuration: 0.25
+    endDragEase: 30
 --- !u!114 &6519638848624192487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,6 +473,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3210521995860879789}
   - {fileID: 1732812209197039531}
   m_Father: {fileID: 8040695726058838633}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

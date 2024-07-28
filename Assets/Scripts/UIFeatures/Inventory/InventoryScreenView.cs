@@ -1,7 +1,6 @@
 ﻿namespace UIFeatures.Inventory
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
@@ -58,6 +57,7 @@
                 var itemModel = new InventoryItemModel(item);
                 itemModel.OnSelected    = () => { this.OnSelected(itemModel); };
                 itemModel.InventoryRoot = this.View.transform;
+                itemModel.InventoryScrollRect = this.View.InventoryItemGridViewAdapter;
                 listInventoryItemModels.Add(itemModel);
             }
 
