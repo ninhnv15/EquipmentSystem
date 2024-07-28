@@ -51,7 +51,7 @@
                             isFirstTime = false;
                             return;
                         }
-
+                        
                         this.View.IconItem.transform.DOKill();
                         this.View.IconItem.transform.localScale = Vector3.one * 1.5f;
                         this.View.IconItem.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutElastic).OnComplete(() => { this.View.IconItem.GetComponent<UIShiny>().Play(); });
@@ -61,7 +61,9 @@
                 {
                     this.View.IconItem.gameObject.SetActive(false);
                     this.View.IconItemType.gameObject.SetActive(true);
+                    isFirstTime = false;
                 }
+                
             });
         }
 

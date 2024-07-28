@@ -1,6 +1,7 @@
 ﻿namespace UserData.Model
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Blueprints;
     using Newtonsoft.Json;
     using UniRx;
@@ -24,24 +25,31 @@
         public bool EquipItem(Item newItem, out Item oldItem)
         {
             oldItem = null;
-            if (newItem.StaticData.ItemType == ItemType.Consumable) return false;
-            if (!this.SlotItems.TryGetValue(newItem.StaticData.ItemType, out var slotItem))
+            if (newItem.StaticData.ItemType != ItemType.Consumable)
             {
-                slotItem = this.AddSlotItem(newItem.StaticData.ItemType);
-            }
-
-            if (slotItem.Item.Value != null)
-            {
-                oldItem = slotItem.Item.Value;
-                foreach (var stat in oldItem.StaticData.StatToValue)
+                if (!this.SlotItems.TryGetValue(newItem.StaticData.ItemType, out var slotItem))
                 {
-                    var statDataElement = this.StatsDictionary[stat.Key];
-                    statDataElement.SetAddedValue(statDataElement.AddedValue.Value - stat.Value);
+                    slotItem = this.AddSlotItem(newItem.StaticData.ItemType);
                 }
+
+                if (slotItem.Item.Value != null)
+                {
+                    oldItem = slotItem.Item.Value;
+                    foreach (var stat in oldItem.StaticData.StatToValue)
+                    {
+                        var statDataElement = this.StatsDictionary[stat.Key];
+                        statDataElement.SetAddedValue(statDataElement.AddedValue.Value - stat.Value);
+                    }
+                }
+
+                slotItem.Item.Value = newItem;
+            }
+            else
+            {
+                // return false if all stats are max value
+                if (newItem.StaticData.StatToValue.All(stat => this.StatsDictionary[stat.Key].IsMaxValue())) return false;
             }
 
-            slotItem.Item.Value = newItem;
-            
             foreach (var stat in newItem.StaticData.StatToValue)
             {
                 var statDataElement = this.StatsDictionary[stat.Key];
@@ -78,16 +86,40 @@
             this.CurrentValue = new FloatReactiveProperty(originValue);
         }
 
-        public void SetAddedValue(float value)
+        public void SetAddedValue(float newAddedValue)
         {
-            this.AddedValue.Value = value;
+            if (this.ClampedBy != null)
+            {
+                var clampedValue = this.ClampedBy.CurrentValue.Value;
+                if (this.BaseValue.Value + newAddedValue > clampedValue)
+                {
+                    newAddedValue = clampedValue - this.BaseValue.Value;
+                }
+            }
+
+            this.AddedValue.Value = newAddedValue;
             this.UpdateCurrentValue();
         }
 
-        public void SetBaseValue(float value)
+        public void SetBaseValue(float newBaseValue)
         {
-            this.BaseValue.Value = value;
+            if (this.ClampedBy != null)
+            {
+                var clampedValue = this.ClampedBy.CurrentValue.Value;
+                if (newBaseValue + this.AddedValue.Value > clampedValue)
+                {
+                    newBaseValue = clampedValue - this.AddedValue.Value;
+                }
+            }
+
+            this.BaseValue.Value = newBaseValue;
             this.UpdateCurrentValue();
+        }
+
+        public bool IsMaxValue()
+        {
+            if (this.ClampedBy == null) return false;
+            return this.CurrentValue.Value >= this.ClampedBy.CurrentValue.Value;
         }
 
         private void UpdateCurrentValue() { this.CurrentValue.Value = this.BaseValue.Value + this.AddedValue.Value; }

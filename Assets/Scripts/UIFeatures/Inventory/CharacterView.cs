@@ -6,7 +6,9 @@
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.MVP;
+    using GameFoundation.Scripts.Utilities.ObjectPool;
     using TMPro;
+    using UniRx;
     using UnityEngine;
     using UnityEngine.UI;
     using UserData.Controller;
@@ -15,11 +17,13 @@
 
     public class CharacterView : TViewMono
     {
-        [field: SerializeField] public Image              ImgCharacterPortrait { get; private set; }
-        [field: SerializeField] public TextMeshProUGUI    TxtCharacterName     { get; private set; }
-        [field: SerializeField] public List<SlotItemView> SlotItemViews        { get; private set; }
+        [field: SerializeField] public Image                  ImgCharacterPortrait   { get; private set; }
+        [field: SerializeField] public TextMeshProUGUI        TxtCharacterName       { get; private set; }
+        [field: SerializeField] public List<SlotItemView>     SlotItemViews          { get; private set; }
+        [field: SerializeField] public ConsumableSlotItemView ConsumableSlotItemView { get; private set; }
 
         [field: SerializeField] public Transform StatHolder { get; private set; }
+        [field: SerializeField] public Transform VfxHolder  { get; private set; }
     }
 
     public class CharacterPresenter : BaseUIItemPresenter<CharacterView, Character>
@@ -54,6 +58,8 @@
                 this.View.ImgCharacterPortrait.gameObject.SetActive(true);
             });
 
+            this.SubscribeStatValue(StatType.Health);
+            this.SubscribeStatValue(StatType.Mana);
 
             // Setup slot item views
             foreach (var slotItemView in this.View.SlotItemViews)
@@ -66,6 +72,8 @@
                 slotItemView.OnDropItem = () => { this.OnDropItem(slotItemView.ItemType); };
             }
 
+            this.View.ConsumableSlotItemView.OnDropItem = () => { this.OnDropItem(ItemType.Consumable); };
+
             // Setup stats
             if (this.statItemPresenters == null || this.statItemPresenters.Count == 0)
             {
@@ -74,6 +82,26 @@
                     if (!statDataElement.StatRecord.IsShow) continue;
                     SetupStatItemView(statDataElement.StatRecord.StatItemViewPath, statDataElement).Forget();
                 }
+            }
+        }
+        private void SubscribeStatValue(StatType statType)
+        {
+            if (this.characterData.StatsDictionary.TryGetValue(statType, out var statDataElement))
+            {
+                var currentValue = statDataElement.CurrentValue.Value;
+                statDataElement.CurrentValue.Subscribe( newValue =>
+                {
+                    if (newValue > currentValue)
+                    {
+                        ObjectPoolManager.Instance.Spawn($"BuffVfx_{statType}").ContinueWith(vfx =>
+                        {
+                            vfx.transform.SetParent(this.View.VfxHolder,false);
+                            vfx.transform.localScale = Vector3.one;
+                        });
+                    }
+
+                    currentValue = newValue;
+                });
             }
         }
 
@@ -87,7 +115,7 @@
             statItemPresenter.BindData(model);
             this.statItemPresenters.Add(model.Type, statItemPresenter);
         }
-        
+
         private void OnDropItem(ItemType slotItemType)
         {
             var selectedItem = this.inventoryScreenPresenter.GetSelectedItem();
